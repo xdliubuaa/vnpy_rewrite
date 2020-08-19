@@ -14,12 +14,6 @@
 
 vn.py是一套基于Python的开源量化交易系统开发框架，于2015年1月正式发布，在开源社区5年持续不断的贡献下一步步成长为全功能量化交易平台，目前国内外金融机构用户已经超过300家，包括：私募基金、证券自营和资管、期货资管和子公司、高校研究机构、自营交易公司、交易所、Token Fund等。
 
-全新的《vn.py全实战进阶》在线课程，已经在官方微信公众号[**vnpy-community**]上线，50节内容覆盖从策略设计开发、参数回测优化，到最终实盘自动交易的完整CTA量化业务流程。购买请扫描下方二维码关注后，点击菜单栏的【进阶课程】按钮即可：
-
-<p align="center">
-  <img src ="https://vnpy.oss-cn-shanghai.aliyuncs.com/vnpy_qr.jpg"/>
-</p>
-
 在使用vn.py进行二次开发（策略、模块等）的过程中有任何疑问，请查看[**vn.py项目文档**](https://www.vnpy.com/docs/cn/index.html)，如果无法解决请前往[**官方社区论坛**](https://www.vnpy.com/forum/)的【提问求助】板块寻求帮助，也欢迎在【经验分享】板块分享你的使用心得！
 
 ## 功能特点
@@ -134,14 +128,23 @@ vn.py是一套基于Python的开源量化交易系统开发框架，于2015年1�
 
 ## 环境准备
 
-* 推荐使用vn.py团队为量化交易专门打造的Python发行版[VNStudio-2.0.8](https://download.vnpy.com/vnstudio-2.0.8.exe)，内置了最新版的vn.py框架以及VN Station量化管理平台，无需手动安装
 * 支持的系统版本：Windows 7以上/Windows Server 2008以上/Ubuntu 18.04 LTS
 * 支持的Python版本：Python 3.7 64位（**注意必须是Python 3.7 64位版本**）
 
 ## 安装步骤
 
-在[这里](https://github.com/vnpy/vnpy/releases)下载最新版本，解压后运行以下命令安装：
+在[这里](https://github.com/vnpy/vnpy/releases)有最新版本，解压后运行以下命令安装：
 
+这里是基于vnpy-2.0.9版本进行修改的，先安装python版本，可以通过
+  - 安装[Anaconda](https://www.anaconda.com/download/)，python3.6及以上版本 64位版本(32位应该也可以，但没测试过)
+    建议安装[老版本的Anaconda](https://repo.anaconda.com/archive/)
+  - 安装[MongoDB](https://www.mongodb.com/download-center#production)，并将[MongoDB配置为系统服务](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/#configure-a-windows-service-for-mongodb-community-edition)
+    -  如果你想下载更多的历史数据，建议配备比较大的的硬盘。
+    -  [MogonDB客户端](https://robomongo.org/download)
+    - **注意: 在Windows下安装MongoDB时，会默认安装MongoDB Compass。 MongoDB Compass安装很慢，不需要安装**
+    - talib
+        - Windows
+            - 请到[这儿](https://www.lfd.uci.edu/~gohlke/pythonlibs/#ta-lib)安装对应的whl版本
 **Windows**
 
     install.bat
@@ -156,18 +159,14 @@ vn.py是一套基于Python的开源量化交易系统开发框架，于2015年1�
 
 2. 在[vn.py社区论坛](https://www.vnpy.com/forum/)注册获得VN Station账号密码（论坛账号密码即是）
 
-3. 启动VN Station（安装VNConda后会在桌面自动创建快捷方式），输入上一步的账号密码登录
+3. 输入上一步的账号密码登录
 
 4. 点击底部的**VN Trader Lite**按钮，开始你的交易！！！
 
-注意：
-
-* 在VN Trader的运行过程中请勿关闭VN Station（会自动退出）
-* 如需要灵活配置量化交易应用组件，请使用**VN Trader Pro**
 
 ## 脚本运行
 
-除了基于VN Station的图形化启动方式外，也可以在任意目录下创建run.py，写入以下示例代码：
+可以在任意目录下创建run.py，写入以下示例代码：
 
 ```Python
 from vnpy.event import EventEngine
