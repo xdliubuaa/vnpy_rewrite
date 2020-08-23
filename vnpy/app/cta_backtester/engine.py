@@ -42,6 +42,9 @@ class BacktesterEngine(BaseEngine):
         self.backtesting_engine = None
         self.thread = None
 
+        self.bt_mode = None
+        self.data_type = None
+
         # Backtesting reuslt
         self.result_df = None
         self.result_statistics = None
@@ -59,7 +62,7 @@ class BacktesterEngine(BaseEngine):
 
         self.load_strategy_class()
         self.write_log("策略文件加载完成")
-        
+
         self.bt_mode = SETTINGS["backtest.mode"]
         self.data_type = SETTINGS["dataSource.type"]
         if self.data_type == "stock_tushare":
@@ -68,6 +71,7 @@ class BacktesterEngine(BaseEngine):
             self.init_rqdata()
         else:
             self.init_currency()
+        self.write_log(f"策略文件参数：bt_mode:{self.bt_mode} data_type:{self.data_type}")
 
     def init_rqdata(self):
         """
@@ -413,11 +417,16 @@ class BacktesterEngine(BaseEngine):
                     data = currencyData.get_history(req)
 
             if data:
+                collect_name = req.symbol + "_tick"
                 if self.data_type == "currency" and self.bt_mode == "tick":
-                    database_manager.save_tick_data(data)
+                    database_manager.save_tick_data(data, collect_name)
+                elif self.data_type == "stock_tushare" or self.data_type == "currency":
+                    database_manager.save_bar_data(data, collect_name)
                 else:
                     database_manager.save_bar_data(data)
-                self.write_log(f"{vt_symbol}-{interval}历史数据下载完成, data_type:{self.data_type}")
+
+                print(f"{vt_symbol}-{interval}历史数据下载完成, data_type:{self.data_type}, {collect_name}")
+                self.write_log(f"{vt_symbol}-{interval}历史数据下载完成, data_type:{self.data_type}, {req.symbol}")
             else:
                 self.write_log(f"数据下载失败，无法获取{vt_symbol}的历史数据, data_type:{self.data_type}")
         except Exception:

@@ -148,8 +148,6 @@ class BacktestingEngine:
 
         self.bt_mode = SETTINGS["backtest.mode"]
         self.data_type = SETTINGS["dataSource.type"]
-        if self.bt_mode == "tick":
-            self.mode = BacktestingMode.TICK
 
     def clear_data(self):
         """
@@ -186,8 +184,7 @@ class BacktestingEngine:
         capital: int = 0,
         end: datetime = None,
         mode: BacktestingMode = BacktestingMode.BAR,
-        inverse: bool = False,
-        collection_name: str = None
+        inverse: bool = False
     ):
         """"""
         if self.bt_mode == "tick":
@@ -207,7 +204,6 @@ class BacktestingEngine:
         self.end = end
         self.mode = mode
         self.inverse = inverse
-        self.collection_name = collection_name
 
     def add_strategy(self, strategy_class: type, setting: dict):
         """"""
@@ -244,15 +240,21 @@ class BacktestingEngine:
 
         start = self.start
         end = self.start + progress_delta
+        if self.data_type == "stock_tushare" or self.data_type == "currency":
+            end = self.end
         progress = 0
 
         if self.data_type == "stock_tushare":
             self.symbol = f'{self.symbol}'+'.'+ self.exchange_bond(self.exchange)
+            self.collection_name = self.symbol
             self.output(f"load data: {self.symbol},{self.exchange},{self.interval},{start},{end},{self.mode}")
         elif self.data_type == "currency" and self.bt_mode == "tick":
-                self.mode = BacktestingMode.TICK
+            self.mode = BacktestingMode.TICK
+            self.collection_name = self.symbol+"_tick"
+        else:
+            self.collection_name = self.symbol + "_bar"
 
-        self.output(f"backtesting load data: {self.symbol},{self.exchange},{self.interval},{start},{end},{self.mode}")
+        self.output(f"backtesting load data: {self.symbol},{self.exchange},{self.interval},{start},{end},{self.mode},{self.collection_name}")
         
         while start < self.end:
             end = min(end, self.end)  # Make sure end time stays within set range
@@ -1278,7 +1280,7 @@ def load_bar_data(
     interval: Interval,
     start: datetime,
     end: datetime,
-    collection_name: str = None
+    collection_name: str
 ):
     """"""
     return database_manager.load_bar_data(
@@ -1292,7 +1294,7 @@ def load_tick_data(
     exchange: Exchange,
     start: datetime,
     end: datetime,
-    collection_name: str = None
+    collection_name: str
 ):
     """"""
     return database_manager.load_tick_data(

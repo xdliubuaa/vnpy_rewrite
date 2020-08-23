@@ -61,8 +61,8 @@ class tickTobar(CtaTemplate):
         self.put_event()
 
     def on_save_bar(self, bar: BarData):
-        #self.number = self.number + 1
-        #print("135 on_save_bar: {}, {}, {}".format(self.number, self.interval, bar))
+        # self.number = self.number + 1
+        # print("135 on_save_bar: {}, {}, {}".format(self.number, self.interval, bar))
         bar.interval = self.interval
         if self.interval == Interval.MINUTE:
             bar.interval = Interval.MINUTE
@@ -77,7 +77,7 @@ class tickTobar(CtaTemplate):
         elif self.interval == Interval.DAILY:
             bar.interval = Interval.DAILY
 
-        database_manager.save_bar_data([bar])
+        database_manager.save_bar_data([bar], bar.symbol+"_bar")
 
     def on_tick(self, tick: TickData):
         """

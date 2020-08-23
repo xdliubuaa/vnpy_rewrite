@@ -11,16 +11,17 @@ from vnpy.app.csv_loader import CsvLoaderApp
 from vnpy.app.cta_strategy import CtaStrategyApp
 from vnpy.app.cta_backtester import CtaBacktesterApp
 
+
 def main():
     """Start VN Trader"""
     qapp = create_qapp()
 
     event_engine = EventEngine()
     main_engine = MainEngine(event_engine)
-    
+
     # main_engine.add_gateway(CtpGateway)
-    #main_engine.add_gateway(HuobiGateway)
-    #main_engine.add_gateway(OkexGateway)
+    # main_engine.add_gateway(HuobiGateway)
+    # main_engine.add_gateway(OkexGateway)
     main_engine.add_gateway(BinanceGateway)
 
     main_engine.add_app(CtaStrategyApp)
@@ -31,6 +32,7 @@ def main():
     main_window.showMaximized()
 
     qapp.exec()
+
 
 if __name__ == "__main__":
     main()

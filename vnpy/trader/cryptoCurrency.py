@@ -65,10 +65,10 @@ class cryptoCurrency:
         exch = req.exchange
         interval = req.interval
 
-        #start = req.start
-        #end = req.end
+        # start = req.start
+        # end = req.end
 
-        #print("get_history, req:{}, ...".format(req))
+        # print("get_history, req:{}, ...".format(req))
         start = req.start.strftime('%Y%m%d')
         end = req.end.strftime('%Y%m%d')
         
@@ -77,14 +77,14 @@ class cryptoCurrency:
         for root,dirs,files in os.walk(self.path):
             for file in files:
                 file_long = os.path.join(root,file)
-                #print("get_history, file_long:{}, ...".format(file_long))
+                # print("get_history, file_long:{}, ...".format(file_long))
 
                 df = pd.read_csv(file_long, sep=',', header=None)
 
                 for i in df.index:
                     col = np.array(df.iloc[i])
                     if symbol != col[1]:
-                        continue
+                        break
 
                     timeArray = time.localtime(col[3]+24*3600)
                     otherStyleTime = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)

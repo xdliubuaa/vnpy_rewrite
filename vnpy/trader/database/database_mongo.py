@@ -270,7 +270,7 @@ class MongoManager(BaseDatabaseManager):
         interval: Interval,
         start: datetime,
         end: datetime,
-        collection_name: str = None,
+        collection_name: str,
     ) -> Sequence[BarData]:
         if collection_name is None:
             s = DbBarData.objects(
@@ -294,7 +294,7 @@ class MongoManager(BaseDatabaseManager):
         return data
 
     def load_tick_data(
-        self, symbol: str, exchange: Exchange, start: datetime, end: datetime, collection_name: str = None,
+        self, symbol: str, exchange: Exchange, start: datetime, end: datetime, collection_name: str,
     ) -> Sequence[TickData]:
         if collection_name is None:
             s = DbTickData.objects(
@@ -311,7 +311,7 @@ class MongoManager(BaseDatabaseManager):
                     datetime__gte=start,
                     datetime__lte=end,
                 )
-                
+
         data = [db_tick.to_tick() for db_tick in s]
         return data
 
@@ -341,7 +341,6 @@ class MongoManager(BaseDatabaseManager):
                         ).update_one(upsert=True, **updates)
                     )
 
-
     def save_tick_data(self, datas: Sequence[TickData], collection_name: str = None):
         for d in datas:
             updates = self.to_update_param(d)
@@ -360,7 +359,6 @@ class MongoManager(BaseDatabaseManager):
                             symbol=d.symbol, exchange=d.exchange.value, datetime=d.datetime
                         ).update_one(upsert=True, **updates)
                     )
-
 
     def get_newest_bar_data(
         self, symbol: str, exchange: "Exchange", interval: "Interval"
