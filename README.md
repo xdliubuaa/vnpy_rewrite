@@ -1,8 +1,5 @@
 # By Traders, For Traders.
 
-<p align="center">
-  <img src ="https://vnpy.oss-cn-shanghai.aliyuncs.com/vnpy-logo.png"/>
-</p>
 
 <p align="center">
     <img src ="https://img.shields.io/badge/version-2.0.9-blueviolet.svg"/>
@@ -43,20 +40,9 @@ vn.py是一套基于Python的开源量化交易系统开发框架，于2015年1�
 
     bash install.sh
 
-## 使用指南
-
-1. 在[SimNow](http://www.simnow.com.cn/)注册CTP仿真账号，并在[该页面](http://www.simnow.com.cn/product.action)获取经纪商代码以及交易行情服务器地址。
-
-2. 在[vn.py社区论坛](https://www.vnpy.com/forum/)注册获得VN Station账号密码（论坛账号密码即是）
-
-3. 输入上一步的账号密码登录
-
-4. 点击底部的**VN Trader Lite**按钮，开始你的交易！！！
-
-
 ## 脚本运行
 
-可以在任意目录下创建run.py，写入以下示例代码：
+在源码根目录下已经创建了run.py，类似以下示例代码：
 
 ```Python
 from vnpy.event import EventEngine
@@ -90,6 +76,14 @@ if __name__ == "__main__":
 
     python run.py
 
+## 使用指南
+1. 找到C:\Users\${USER_NAME}\.vntrader\vt_setting.json文件，配置好mongodb和dataSource.type
+   也可以在启动了VN Trader界面上的全局配置上配置好配置项
+2. 在VN Trader界面上找到回测界面，点击进入，找到tickToBar的策略，主要使用以下两种功能
+  - **下载数据**：从tick文件中读取tick数据，然后存入到mongodb数据库中
+  - **开始回测**: 将tick数据转换成分钟，小时，天的bar数据
+
+3. 转换好bar数据后，回测策略就可以直接使用bar数据；也可以直接通过tick数据进行策略回测；这两者都需要配置对应的配置项。
 
 ## 功能特点
 
@@ -196,10 +190,6 @@ if __name__ == "__main__":
 6. 跨进程通讯标准组件（vnpy.rpc），用于实现分布式部署的复杂交易系统。
 
 7. Python高性能K线图表（vnpy.chart），支持大数据量图表显示以及实时数据更新功能。
-
-8. [社区论坛](http://www.vnpy.com)和[知乎专栏](http://zhuanlan.zhihu.com/vn-py)，内容包括vn.py项目的开发教程和Python在量化交易领域的应用研究等内容。
-
-9. 官方交流群262656087（QQ），管理严格（定期清除长期潜水的成员），入群费将捐赠给vn.py社区基金。
 
 
 ## 版权说明
